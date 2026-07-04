@@ -11,9 +11,6 @@ use App\Http\Controllers\Api\V1\SessionController;
 use App\Http\Middleware\AuthenticateJwt;
 use App\Http\Middleware\EnsureOrganizationMember;
 use App\Http\Middleware\RequirePermission;
-use App\Models\Organization;
-use App\Models\User;
-use App\Models\UserSession;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/health', HealthController::class);
@@ -52,25 +49,4 @@ Route::prefix('v1')->group(function (): void {
                 ->middleware(RequirePermission::class.':users.read');
         });
     });
-});
-
-Route::bind('organization', function (string $value) {
-    return Organization::query()
-        ->where('uuid', $value)
-        ->orWhere('id', $value)
-        ->firstOrFail();
-});
-
-Route::bind('member', function (string $value) {
-    return User::query()
-        ->where('uuid', $value)
-        ->orWhere('id', $value)
-        ->firstOrFail();
-});
-
-Route::bind('session', function (string $value) {
-    return UserSession::query()
-        ->where('uuid', $value)
-        ->orWhere('id', $value)
-        ->firstOrFail();
 });

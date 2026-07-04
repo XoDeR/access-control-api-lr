@@ -20,7 +20,6 @@ class EnsureOrganizationMember
         if (! $organization instanceof Organization) {
             $organization = Organization::query()
                 ->where('uuid', $organization)
-                ->orWhere('id', $organization)
                 ->firstOrFail();
             $request->route()->setParameter('organization', $organization);
         }
